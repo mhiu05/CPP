@@ -31,6 +31,10 @@ public:
     {
         return this->name;
     }
+    void setEmail(string email)
+    {
+        this->email = email;
+    }
     string getEmail()
     {
         return this->email;
@@ -46,11 +50,17 @@ class Book
 private:
     string name;
     vector<Author> authors;
-    double price;
+    int price;
     int qty;
 
 public:
     Book() {};
+    Book(string name, vector<Author> authors, double price)
+    {
+        this->name = name;
+        this->authors = authors;
+        this->price = price;
+    }
     Book(string name, vector<Author> authors, double price, int qty)
     {
         this->name = name;
@@ -62,13 +72,21 @@ public:
     {
         return this->name;
     }
-    double getPrice()
+    int getPrice()
     {
         return this->price;
+    }
+    void setPrice(double price)
+    {
+        this->price = price;
     }
     int getQty()
     {
         return this->qty;
+    }
+    void setQty(int qty)
+    {
+        this->qty = qty;
     }
     int getNumAuthor()
     {
@@ -91,7 +109,7 @@ void nhap(vector<Book> &books, int n)
         string tmp;
         getline(cin, tmp);
         string name;
-        double price;
+        int price;
         int qty, numAuthors;
         vector<Author> authors;
 
