@@ -17,6 +17,15 @@ void faster()
 int main()
 {
     faster();
-
+    ll n, m, k;
+    cin >> n >> m >> k;
+    ll ans = 1;
+    ll x = 1ll * pow(10, k);
+    for (int i = 1; i <= m; ++i)
+    {
+        ans *= n;
+        ans %= x;
+    }
+    cout << ans;
     return 0;
 }
