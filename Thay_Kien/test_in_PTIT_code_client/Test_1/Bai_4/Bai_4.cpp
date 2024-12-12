@@ -1,4 +1,3 @@
-// chưa đúng
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -15,24 +14,56 @@ using ll = long long;
 const int mod = 1e9 + 7;
 const int MAXN = 1e5 + 5;
 
-struct qli
+class Qli
 {
-    string day, name, phone;
+public:
+    string day, name, sdt;
+    Qli() {};
+    Qli(string day, string name, string sdt)
+    {
+        this->day = day;
+        this->name = name;
+        this->sdt = sdt;
+    }
 };
 
-int check_phone(string s)
+int cmp(Qli a, Qli b)
 {
-    for (int i = 0; i < s.size(); ++i)
+    string ten1 = "", ten2 = "";
+    stringstream ss1(a.name), ss2(b.name);
+    vector<string> v1, v2;
+    string tmp;
+    while (ss1 >> tmp)
     {
-        if (!isdigit(s[i]))
-            return 0;
+        tmp[0] = toupper(tmp[0]);
+        for (int i = 1; i < tmp.size(); ++i)
+        {
+            tmp[i] = tolower(tmp[i]);
+        }
+        v1.push_back(tmp);
     }
-    return 1;
-}
-
-int cmp(qli a, qli b)
-{
-    return a.name < b.name;
+    while (ss2 >> tmp)
+    {
+        tmp[0] = toupper(tmp[0]);
+        for (int i = 1; i < tmp.size(); ++i)
+        {
+            tmp[i] = tolower(tmp[i]);
+        }
+        v2.push_back(tmp);
+    }
+    ten1 = v1[v1.size() - 1];
+    ten2 = v2[v2.size() - 1];
+    for (int i = 0; i < v1.size() - 1; ++i)
+    {
+        ten1 += " ";
+        ten1 += v1[i];
+    }
+    for (int i = 0; i < v2.size() - 1; ++i)
+    {
+        ten2 += " ";
+        ten2 += v2[i];
+    }
+    return ten1 < ten2;
 }
 
 int main()
@@ -40,43 +71,30 @@ int main()
     faster();
     ifstream in("SOTAY.txt");
     ofstream out("DIENTHOAI.txt");
-
-    qli a[1005];
-    int cnt = 0;
     string s;
-    int ok = 1;
+    string day, name, sdt;
+    vector<Qli> v;
     while (getline(in, s))
     {
-        stringstream ss(s);
-        string tmp;
-        vector<string> v;
-        while (ss >> tmp)
+        if (s.substr(0, 4) == "Ngay")
         {
-            v.push_back(tmp);
+            day = s.substr(5);
         }
-        if (v[0] == ("Ngay"))
+        else if (!isdigit(s[0]))
         {
-            a[cnt].day = v[v.size() - 1];
-            ok = 0;
+            name = s;
         }
-        else if (!check_phone(s))
+        else
         {
-            a[cnt].name = s;
-        }
-        else if (check_phone(s))
-        {
-            a[cnt].phone = s;
-            ++cnt;
+            sdt = s;
+            v.push_back(Qli(day, name, sdt));
         }
     }
-
-    sort(a, a + cnt);
-    for (int i = 0; i < cnt; ++i)
+    sort(v.begin(), v.end(), cmp);
+    for (int i = 0; i < v.size(); ++i)
     {
-        out << a[i].name << ": " << a[i].phone << " " << a[i].day;
+        out << v[i].name << ": " << v[i].sdt << " " << v[i].day << endl;
     }
-    out << endl;
-
     in.close();
     out.close();
     return 0;
